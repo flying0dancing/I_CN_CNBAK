@@ -1,0 +1,70 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBC.INI\ODBC Data Sources]
+"SQL_DATA"="SQL Server"
+"SQL_SYS"="SQL Server"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBC.INI\SQL_DATA]
+"Driver"="C:\\WINDOWS\\system32\\SQLSRV32.dll"
+"Description"="HKMA Data Database"
+"Server"="172.20.20.57\\sql2008r2"
+"Database"=DB1_DATA
+"LastUser"="sa"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\ODBC\ODBC.INI\SQL_SYS]
+"Driver"="C:\\WINDOWS\\system32\\SQLSRV32.dll"
+"Description"="HKMA Data Database"
+"Server"="172.20.20.57\\sql2008r2"
+"Database"=DB2_SYS
+"LastUser"="sa"
+
+
+[HKEY_CURRENT_USER\Software\STB Systems]
+
+[HKEY_CURRENT_USER\Software\STB Systems\STB Forms]
+
+[HKEY_CURRENT_USER\Software\STB Systems\STB Forms\Current Authority]
+"Identity"=dword:00000001
+
+[HKEY_CURRENT_USER\Software\STB Systems\STB Forms\Settings]
+"ShowGVEditor"=dword:00000001
+
+[HKEY_CURRENT_USER\Software\STB Systems\SuperConsolidator]
+
+[HKEY_CURRENT_USER\Software\STB Systems\SuperConsolidator\Dates]
+"STB_Translate_History_Days"="50"
+"CenturyWindow"="59"
+"STB_Two_Digit_Year_Cutoff"="48"
+
+[HKEY_CURRENT_USER\Software\STB Systems\SuperConsolidator\FBS]
+
+[HKEY_CURRENT_USER\Software\STB Systems\SuperConsolidator\FBS\Rules]
+"AddRule"="1"
+"CopyRule"="1"
+"StandardRule"="1"
+"DeleteRule"="1"
+"DirectSQL"="1"
+"NettingRule"="1"
+"PreProcessingRule"="1"
+"RecursiveRule"="1"
+"ComplexCalcRule"="1"
+"LookupRule"="1"
+"DateDifferenceRule"="1"
+"OffsetRule"="1"
+"ASCIIExport"="0"
+"ASCIIImport"="0"
+"AppendMap"="1"
+"DecisionMapRule"="1"
+
+[HKEY_CURRENT_USER\Software\STB Systems\SuperConsolidator\Other]
+"ErrorLogDir"="C:\\STBTEMP"
+"AbortOnFailure"="0"
+"Use .Net Engine"="1"
+"STBDebug"="1"
+"PagingRecs"="1000"
+
+[HKEY_CURRENT_USER\Software\STB Systems\SuperConsolidator\Site Details]
+"Site"="QA Testing ENV"
+
+
+

@@ -1,0 +1,70 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ODBC\ODBC.INI\ODBC Data Sources]
+"LRP_Data"="SQL Native Client"
+"LRP_System"="SQL Native Client"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ODBC\ODBC.INI\LRP_Data]
+"Driver"="C:\\WINDOWS\\system32\\sqlncli.dll"
+"Description"="WFSIL1822_v5_Data"
+"Server"="172.20.20.55\\STBBC"
+"Database"=DB1_DATA
+"LastUser"="sa"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\ODBC\ODBC.INI\LRP_System]
+"Driver"="C:\\WINDOWS\\system32\\sqlncli.dll"
+"Description"="WFSIL1822_v5_System"
+"Server"="172.20.20.55\\STBBC"
+"Database"=DB2_SYSTEM
+"LastUser"="sa"
+
+
+[HKEY_CURRENT_USER\Software\STB Systems]
+
+[HKEY_CURRENT_USER\Software\STB Systems\STB Forms]
+
+[HKEY_CURRENT_USER\Software\STB Systems\STB Forms\Current Authority]
+"Identity"=dword:00000001
+
+[HKEY_CURRENT_USER\Software\STB Systems\STB Forms\Settings]
+"ShowGVEditor"=dword:00000001
+
+[HKEY_CURRENT_USER\Software\STB Systems\SuperConsolidator]
+
+[HKEY_CURRENT_USER\Software\STB Systems\SuperConsolidator\Dates]
+"STB_Translate_History_Days"="50"
+"CenturyWindow"="59"
+"STB_Two_Digit_Year_Cutoff"="48"
+
+[HKEY_CURRENT_USER\Software\STB Systems\SuperConsolidator\FBS]
+
+[HKEY_CURRENT_USER\Software\STB Systems\SuperConsolidator\FBS\Rules]
+"AddRule"="1"
+"CopyRule"="1"
+"StandardRule"="1"
+"DeleteRule"="1"
+"DirectSQL"="1"
+"NettingRule"="1"
+"PreProcessingRule"="1"
+"RecursiveRule"="1"
+"ComplexCalcRule"="1"
+"LookupRule"="1"
+"DateDifferenceRule"="1"
+"OffsetRule"="1"
+"ASCIIExport"="0"
+"ASCIIImport"="0"
+"AppendMap"="1"
+"DecisionMapRule"="1"
+
+[HKEY_CURRENT_USER\Software\STB Systems\SuperConsolidator\Other]
+"ErrorLogDir"="C:\\STBTEMP"
+"AbortOnFailure"="0"
+"Use .Net Engine"="1"
+"STBDebug"="1"
+"PagingRecs"="10000"
+
+[HKEY_CURRENT_USER\Software\STB Systems\SuperConsolidator\Site Details]
+"Site"="Wells Fargo Securities Intl Ltd v5 - PutSys 20110211"
+
+
+

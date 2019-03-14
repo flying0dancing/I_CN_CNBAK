@@ -1,0 +1,1 @@
+STBInstalledProductVersion.exe /productsfile="0.0.0.0_InstalledProducts.INI"

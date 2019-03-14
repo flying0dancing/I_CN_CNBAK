@@ -1,0 +1,559 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=gb2312" />
+<title> script testing </title>
+<script>
+</script>
+</head>
+<body bgcolor="#EBEEF7">
+
+<form id="form1" name="form1" method="post" action="">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="table_1">
+<tr>
+<td height="22" colspan="3" align="center" class="td_3">settings for execution </td>
+</tr>
+<tr>
+<td class="td_3">
+<table id="exeTab" width="90%" border="1" bordercolor="#95a7bf" cellpadding="0" cellspacing="0" class="table_1">
+	<tr>
+		<td width="5%" height="22" align="center" colspan="2">Install Type:<select name="installtype" id="installtype" onchange="SelInstallTypeFun();">
+			<option value="" >---please select---</option>
+			<option value="Upgration">Upgration</option>
+		  <option value="New Installation">New Installation</option>
+		  <option value="Integration">Integration</option>
+		  </select>
+		</td>
+		<td width="30%" align="left" rowspan="2" id="td_p2">
+      <font color="#ff0000">not select install type!</font>
+		</td>
+	</tr>
+<tr>
+<td width="10%" height="22" align="center">testset:<select name="testset" > 
+		<option value="CBI_SQL">CBI_SQL</option>
+		<option value="CBI_ORCL">CBI_ORCL</option>
+		<option value="CHINA_SQL">CHINA_SQL</option>
+		<option value="CHINA_ORCL">CHINA_ORCL</option>
+		<option value="CIMA_SQL">CIMA_SQL</option>
+		<option value="EBA_ORCL">EBA_ORCL</option>
+		<option value="EBA_SQL">EBA_SQL</option>
+		<option value="FED_ORCL">FED_ORCL</option>
+		<option value="FED_SQL">FED_SQL</option>
+		<option value="HKMA_SQL">HKMA_SQL</option>
+		<option value="HKMA_ORCL">HKMA_ORCL</option>
+		<option value="IRR_ORCL">IRR_ORCL</option>
+		<option value="IRR_SQL2008">IRR_SQL2008</option>
+		<option value="IRR_SQL">IRR_SQL</option>
+		<option value="LRP_ORCL">LRP_ORCL</option>
+		<option value="LRP_SQL">LRP_SQL</option>
+		<option value="MAS_ORCL">MAS_ORCL</option>
+		<option value="MAS_SQL">MAS_SQL</option>
+		<option value="MFSD_ORCL">MFSD_ORCL</option>
+		<option value="MFSD_SQL">MFSD_SQL</option>		
+		</select>
+</td>
+
+<td width="10%" height="22" align="center" id="td_2b">
+	
+</td>
+
+</tr>	
+<tr>
+<td width="10%" height="22" align="center" class="td_1">select for delete</td>
+<td width="10%" align="center">installation type</td>
+<td width="30%" align="center">executable file's fullpath</td>
+</tr>
+<tr>
+<td height="22" colspan="3" align="center">
+<input type="button" name="opRow" id="opRow_1" onclick="addRowFun();" value="add row" disabled=true />&nbsp;&nbsp;&nbsp;
+<input type="button" name="opRow" id="opRow_2" onclick="deleteRowFun();" value="del row" disabled=true />&nbsp;&nbsp;&nbsp;
+<input type="button" name="opRow" id="opRow_3" onclick="checkflagFun();" value="Generate File" disabled=true />
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</form>
+
+</body>
+<script type="text/javascript">
+var addCount=0;
+function SelInstallTypeFun()
+{
+	var tObjs=document.getElementById("installtype");
+	var sObjs=document.getElementById("td_p2");
+	var checks=document.getElementsByName("checkboxName");
+	var s2Objs=document.getElementById("td_2b");
+	if(checks.length>0)
+ {
+ 	for(var i=checks.length;i>0;i--)
+ 		{document.getElementById("exeTab").deleteRow(checks[i-1].parentNode.parentNode.rowIndex);addCount=0;}
+ 	}
+ 
+		switch(tObjs.value)
+		{
+			case "":
+			s2Objs.innerHTML=''
+			sObjs.innerHTML='<font color="#ff0000">not select install type!</font>';
+			break;
+			case "Upgration":
+			s2Objs.innerHTML=''
+			sObjs.innerHTML='old client:<input type="text" name="clientpath" id="oldpath" align="left" size="80" onblur="valid_folder();" ><span><font color="#800080">fill folder</font></span><div>new client:<input type="text" name="clientpath" id="newpath" align="left" size="80" onblur="valid_folder();" ><span><font color="#800080">fill folder</font></span></div>';
+			break;
+			case "New Installation":		
+   		//s2Objs.innerHTML='reg local:<select id="reglocal"><option value="reg">reg 32bit</option><option value="reg_wow64">reg 64bit</option></select>';
+			sObjs.innerHTML='new client:<input type="text" name="clientpath" id="newpath" align="left" size="80" onblur="valid_folder();" ><span><font color="#800080">fill folder</font></span><div>License:&nbsp;&nbsp;&nbsp;<input type="text" name="clientpath" id="License" align="left" size="80" onblur="valid_fullpath();"><span><font color="#800080">fill license</font></span></div>';
+			break;
+			case "Integration":
+			s2Objs.innerHTML=''
+			sObjs.innerHTML='old client:<input type="text" name="clientpath" id="oldpath" align="left" size="80" onblur="valid_folder();" ><span><font color="#800080">fill folder</font></span>';
+			}
+
+	  
+		  var bObjs=document.getElementsByName("opRow");
+		  for(var i=0;i<bObjs.length;i++)
+		 { 
+		 	if(tObjs.value=="") {bObjs[i].disabled=true;}else{bObjs[i].disabled=false;}
+		 }
+
+	
+  }
+function addRowFun()
+{
+   addCount++;
+   var tab=document.getElementById("exeTab");
+   var index=tab.rows.length;
+   var row=tab.insertRow(index-1);
+   
+   var td1=document.createElement("TD");
+   td1.setAttribute("height","22");
+   td1.setAttribute("align","center");
+   td1.innerHTML="<input type='checkbox' name='checkboxName' value=''>";
+   row.appendChild(td1);
+   
+   
+   
+   var td2=document.createElement("TD");
+   td2.setAttribute("height","22");
+   td2.setAttribute("align","center");
+   td2.innerHTML="<select name='selObj_all' id='selObj_"+addCount+"'></select>";
+   row.appendChild(td2);
+   var selObj=document.getElementById("selObj_"+addCount);
+   
+   var option1=document.createElement("OPTION");
+   selObj.options.add(option1);
+   option1.value="installtoolv4";
+   option1.innerText="Install Toolv4";
+   
+   var option2=document.createElement("OPTION");
+   selObj.options.add(option2);
+   option2.value="installproduct";
+   option2.innerText="Install Product";
+   //
+   var option3=document.createElement("OPTION");
+   selObj.options.add(option3);
+   option3.value="hardcode";
+   option3.innerText="CMD Command";
+   
+   var iObjs=document.getElementById("installtype");
+   if(iObjs.value=="New Installation"){
+   	//
+	 var option0=document.createElement("OPTION");
+   selObj.options.add(option0);
+   option0.value="registerinstalltoolv4";
+   option0.innerText="Install Toolv4 and Register it";
+   //
+   option0.selected=true;}
+   else{option2.selected=true;}
+   var td3=document.createElement("TD");
+   td3.setAttribute("height","22");
+   td3.setAttribute("align","left");
+   td3.innerHTML='<input type=text name="textbox_all" size=80 id="testbox_'+addCount+'" onblur="valid_fullpath();"><span><font color="#800080">fill fullpath</font></span>';
+   row.appendChild(td3);
+}
+
+function deleteRowFun()
+{
+var checks=document.getElementsByName("checkboxName");
+ if(checks.length==0)
+ {
+ 	alert("没有要删除的记录");
+ 
+ 	}
+ else
+ 	{
+ 		var isSel=false;
+ 		var leng=checks.length;
+ 		for(var i=leng;i>0;i--)
+ 		{
+ 			if(checks[i-1].checked)
+ 			{
+ 				isSel=true;
+ 				document.getElementById("exeTab").deleteRow(checks[i-1].parentNode.parentNode.rowIndex);
+ 				}
+ 			}
+ 		}
+ 		if(isSel==false)
+ 			{alert("请选择要删除的记录");}
+}
+
+function checkflagFun()
+{
+	var fObjs=document.getElementsByName("textbox_all");//flag_all
+	var Clients=document.getElementsByName("clientpath");
+	var installObjs=document.getElementById("installtype");
+	var false_num=0;
+	if(Clients.length>0)
+	{//alert(lObjs.nextSibling.firstChild.firstChild.nodeValue);
+		for(var i=0;i<Clients.length;i++)
+		{if(Clients[i].nextSibling.firstChild.firstChild.nodeValue!="√"){false_num++;}}
+	}
+	
+	for(var i=0;i<fObjs.length;i++)
+	{
+		//alert(fObjs[i].nextSibling.firstChild.firstChild.nodeValue);
+		if(fObjs[i].nextSibling.firstChild.firstChild.nodeValue!="√"){false_num++;}
+		}
+  if(false_num==0)
+  {
+  	testSelFun();
+  	}
+  	else
+  		{alert("please check, "+false_num+" testbox's value(s) is(are) invalidate.");}
+  
+}
+function testSelFun()
+{
+var sObjs=document.getElementsByName("selObj_all");
+var tObjs=document.getElementsByName("textbox_all");
+var iObjs=document.getElementById("installtype");
+//delete
+//var sqlObjs=document.getElementById("sqlengine");
+//var regObjs=document.getElementById("reglocal");
+var setsObjs=document.getElementById("testset");
+var cObjs=document.getElementsByName("clientpath");
+
+var ws=new ActiveXObject("WScript.Shell");
+var fso = new ActiveXObject("Scripting.FileSystemObject");
+var Date0=new Date();
+var datestr=Date0.getYear()+"_";
+datestr+=(Date0.getMonth()+1)+"_";
+datestr+=Date0.getDate()+"_";
+datestr+=Date0.getHours()+"_";
+datestr+=Date0.getMinutes()+"_";
+datestr+=Date0.getSeconds();
+
+var ClientFolder="";
+for(var i=0;i<cObjs.length;i++)
+{
+	if(cObjs[i].id=="newpath"){
+		ClientFolder=getClientFolder(cObjs[i].value);
+	} else
+	{
+		if(cObjs[i].id=="oldpath" && iObjs.value=="Integration"){ClientFolder=getClientFolder(cObjs[i].value);}
+	}
+}
+//var ctf_fso = fso.CreateTextFile(ws.SpecialFolders("Desktop")+"\\"+iObjs.value+" "+setsObjs.value+" "+ClientFolder+datestr+".bat", true);
+var ctf_fso = fso.CreateTextFile(ws.SpecialFolders("Desktop")+"\\"+iObjs.value+" "+setsObjs.value+" "+ClientFolder+".bat", true);
+ctf_fso.WriteLine('@echo off');
+ctf_fso.WriteLine('taskkill /IM STB* /F /T 1>nul');
+ctf_fso.WriteLine('if not "!PROCESSOR_ARCHITECTURE!"=="%PROCESSOR_ARCHITECTURE%" (');
+ctf_fso.WriteLine('	cmd /V:ON /C %0 %*');
+ctf_fso.WriteLine('    goto END');
+ctf_fso.WriteLine(')');
+ctf_fso.WriteBlankLines(1);
+ctf_fso.WriteLine('IF NOT EXIST "%windir%\\system32\\robocopy.exe" ( copy "%InstallScriptsPath%\\robocopy.exe" "%windir%\\system32\\robocopy.exe" /Y 1>nul)');
+ctf_fso.WriteBlankLines(1);
+ctf_fso.WriteLine('set testset='+setsObjs.value);
+ctf_fso.WriteLine('echo testset=%testset%');
+ctf_fso.WriteLine('set cfg=%testset%.cfg');
+ctf_fso.WriteLine('set reg=%testset%.reg');
+
+ctf_fso.WriteLine('set wowNode=');
+ctf_fso.WriteLine('set regDir=reg');
+ctf_fso.WriteLine('if defined PROCESSOR_ARCHITEW6432 ( ');
+ctf_fso.WriteLine('	set reg=%testset%_wow64.reg');
+ctf_fso.WriteLine('	set wowNode=\\Wow6432Node');
+ctf_fso.WriteLine('	set regDir=reg_wow64');
+ctf_fso.WriteLine('	) else (	');
+ctf_fso.WriteLine('   if "%PROCESSOR_ARCHITECTURE%"=="x86" ( ');
+ctf_fso.WriteLine('	 echo.');
+ctf_fso.WriteLine(' ) else (  echo "please use elevated C:\\Windows\\SysWOW64\\cmd.exe" ');
+ctf_fso.WriteLine('         GOTO END) )');
+
+ctf_fso.WriteLine('set InstallScriptsPath=I:\\CN\\scripts\\Copy of Installation\\script for install');
+ctf_fso.WriteLine('set ConfigTemplatesPath=I:\\CN\\scripts\\Copy of Installation\\Configuration');
+ctf_fso.WriteLine('set sqlbat=');
+ctf_fso.WriteLine('for /f "tokens=1,2,* delims=_" %%a in ("%testset%") do (');
+ctf_fso.WriteLine('  set sqltype=%%b');
+ctf_fso.WriteLine('  if /I "!sqltype:~,3!"=="SQL" ( set sqlbat=call "%InstallScriptsPath%\\opSQLDatabase.bat")');
+ctf_fso.WriteLine('  if /I "!sqltype:~,4!"=="ORCL" ( set sqlbat=call "%InstallScriptsPath%\\opOralDatabase.bat")');
+ctf_fso.WriteLine(')');
+ctf_fso.WriteLine('echo sqlbat=%sqlbat%');
+ctf_fso.WriteLine(':Start');
+//*/
+for(var i=0;i<cObjs.length;i++)
+{
+	if(cObjs[i].id=="oldpath"){
+		ctf_fso.WriteLine('SET Old_FullPath='+cObjs[i].value);
+		ctf_fso.WriteLine('set Old_FullPath=%Old_FullPath:"=%');
+		ctf_fso.WriteLine('IF "%Old_FullPath:~-1%"=="\\" (');
+		ctf_fso.WriteLine('	SET "Old_FullPath=%Old_FullPath:~,-1%"');
+		ctf_fso.WriteLine('	) ');
+		ctf_fso.WriteLine('set str=%Old_FullPath%');
+		ctf_fso.WriteLine('call :CUTSTR_LOOP');
+		ctf_fso.WriteLine('set Old_Path=%str%');
+		ctf_fso.WriteLine('set Old_Client=!Old_FullPath:%str%=!');
+		ctf_fso.WriteLine('echo Old_FullPath=%Old_FullPath%');
+		ctf_fso.WriteLine('echo Old_Client=%Old_Client%');
+		}
+	if(cObjs[i].id=="newpath"){
+		ctf_fso.WriteLine('SET New_FullPath='+cObjs[i].value);
+		ctf_fso.WriteLine('set New_FullPath=%New_FullPath:"=%');
+		ctf_fso.WriteLine('IF "%New_FullPath:~-1%"=="\\" (');
+		ctf_fso.WriteLine('	SET "New_FullPath=%New_FullPath:~,-1%"');
+		ctf_fso.WriteLine('	)');
+		ctf_fso.WriteLine('set str=%New_FullPath%');
+		ctf_fso.WriteLine('call :CUTSTR_LOOP');
+		ctf_fso.WriteLine('set New_Path=%str%');
+		ctf_fso.WriteLine('set New_Client=!New_FullPath:%str%=!');
+		ctf_fso.WriteLine('echo New_FullPath=%New_FullPath%');
+		ctf_fso.WriteLine('echo New_Client=%New_Client%');
+		}
+		if(cObjs[i].id=="License"){
+		ctf_fso.WriteLine('SET License='+cObjs[i].value);
+		ctf_fso.WriteLine('echo License=%License%');
+		}
+	}
+//	/*
+
+if(iObjs.value=="New Installation")
+{ctf_fso.WriteLine('set searchpath=%ConfigTemplatesPath%\\%regDir%\\%reg%');}
+else
+{ctf_fso.WriteLine('set searchpath=%Old_FullPath%\\Configuration\\%reg%');}
+
+ctf_fso.WriteLine('findstr /i /r "sqlsrv32\\.dll" "%searchpath%" >nul && set varALIASTYPE=SQL SERVER');
+ctf_fso.WriteLine('findstr /i /r "sqlncli\\.dll" "%searchpath%" >nul && set varALIASTYPE=SQL Native Client');
+ctf_fso.WriteLine('findstr /i /r "sqlncli10\\.dll" "%searchpath%" >nul && set varALIASTYPE=SQL Server Native Client 10.0');
+ctf_fso.WriteLine('findstr /i /r "Driver.*\\\\10.*client_1.*SQORA32\\.dll" "%searchpath%" >nul && set varALIASTYPE=Oracle in OraClient10g_home1');
+ctf_fso.WriteLine('findstr /i /r "Driver.*\\\\11.*client_1.*SQORA32\\.dll" "%searchpath%" >nul && set varALIASTYPE=Oracle in OraClient11g_home1');
+ctf_fso.WriteLine('for /f "delims= usebackq" %%a in (`findstr /i /r "^.server" "%searchpath%"`) do (');
+ctf_fso.WriteLine('  set vln=%%a');
+ctf_fso.WriteLine('  if /I "!vln:~1,6!"=="server" ( ');
+ctf_fso.WriteLine('      for /f "eol=; tokens=1,2 delims==" %%i in ("%%a") do (');
+ctf_fso.WriteLine('		set DBServer=%%~j');
+ctf_fso.WriteLine('		set DBServer=!DBServer:\\\\=\\!');
+ctf_fso.WriteLine('      )');
+ctf_fso.WriteLine('  )');
+ctf_fso.WriteLine(')');
+//operations for databases
+//new installation
+
+if(iObjs.value=="New Installation")
+{
+	ctf_fso.WriteLine('IF EXIST "%New_FullPath%" GOTO ERROR');
+	ctf_fso.WriteLine('echo Step1:create Data and System databases');
+	ctf_fso.WriteLine('%sqlbat% create "%testset%" "%New_Client%_DATA"');
+	ctf_fso.WriteLine('%sqlbat% create "%testset%" "%New_Client%_SYSTEM"');
+	ctf_fso.WriteLine('IF NOT "!sqlreturnflag!"=="1" GOTO ERROR6');
+	ctf_fso.WriteLine('echo Step2:create client');
+	ctf_fso.WriteLine('MD "%New_FullPath%\\Admin" && MD "%New_FullPath%\\Configuration" && MD "%New_FullPath%\\Software" && MD "%New_FullPath%\\System"');
+	ctf_fso.WriteLine('robocopy.exe "%ConfigTemplatesPath%" "%New_FullPath%\\Configuration" "%cfg%" "CHANGE ALIAS.exe" 1>nul');
+	
+	ctf_fso.WriteLine('robocopy.exe "%ConfigTemplatesPath%\\reg" "%New_FullPath%\\Configuration" "%testset%.reg" 1>nul');
+	ctf_fso.WriteLine('"%InstallScriptsPath%\\Perl\\Perl.exe" "%InstallScriptsPath%\\MdRegwithClient.bat" "%New_FullPath%\\Configuration\\%testset%.reg" "%New_Client%"');
+	ctf_fso.WriteLine('robocopy.exe "%ConfigTemplatesPath%\\reg_wow64" "%New_FullPath%\\Configuration" "%testset%_wow64.reg" 1>nul');
+	ctf_fso.WriteLine('"%InstallScriptsPath%\\Perl\\Perl.exe" "%InstallScriptsPath%\\MdRegwithClient.bat" "%New_FullPath%\\Configuration\\%testset%_wow64.reg" "%New_Client%"');
+	
+	ctf_fso.WriteLine('REG IMPORT "%New_FullPath%\\Configuration\\%reg%" 1>nul');
+	ctf_fso.WriteLine('reg add "HKLM\\SOFTWARE%wowNode%\\Borland\\Database Engine" /v CONFIGFILE01 /t REG_SZ /d "%New_FullPath%\\Configuration\\%cfg%" /f 1>nul');
+	ctf_fso.WriteLine('call "%InstallScriptsPath%\\AutoChangeAlias.exe" "%New_FullPath%\\Configuration\\CHANGE ALIAS.exe" "%New_FullPath%\\"');
+
+
+	}
+	else
+		{
+			ctf_fso.WriteLine('IF "%Old_Path%"=="" GOTO HELP');
+			ctf_fso.WriteLine('IF "%Old_Client%"=="" GOTO HELP');
+			ctf_fso.WriteLine('IF NOT EXIST "%Old_FullPath%" GOTO ERROR');
+			ctf_fso.WriteLine('IF NOT EXIST "%Old_FullPath%\\Configuration\\%reg%" GOTO ERROR5');
+			ctf_fso.WriteLine('IF NOT EXIST "%Old_FullPath%\\Configuration\\%reg%" GOTO ERROR5');
+			//upgrade installation
+			if(iObjs.value=="Upgration")
+			{
+				ctf_fso.WriteLine('IF EXIST "%New_FullPath%" GOTO ERROR');
+				ctf_fso.WriteLine('echo Step1:restore Data and System databases');
+				ctf_fso.WriteLine('%sqlbat% backup "%testset%" "%Old_Client%_DATA"');
+				ctf_fso.WriteLine('%sqlbat% backup "%testset%" "%Old_Client%_SYSTEM"');
+				ctf_fso.WriteLine('%sqlbat% restore "%testset%" "%Old_Client%_DATA" "%New_Client%_DATA"');
+				ctf_fso.WriteLine('%sqlbat% restore "%testset%" "%Old_Client%_SYSTEM" "%New_Client%_SYSTEM"');
+				ctf_fso.WriteLine('echo Step2:create client');
+				ctf_fso.WriteLine('robocopy.exe "%Old_FullPath%" "%New_FullPath%" /E /V /ETA 1>nul');
+				ctf_fso.WriteLine('"%InstallScriptsPath%\\Perl\\Perl.exe" "%InstallScriptsPath%\\MdRegwithClient.bat" "%New_FullPath%\\Configuration\\%testset%.reg" "%New_Client%"');
+				ctf_fso.WriteLine('"%InstallScriptsPath%\\Perl\\Perl.exe" "%InstallScriptsPath%\\MdRegwithClient.bat" "%New_FullPath%\\Configuration\\%testset%_wow64.reg" "%New_Client%"');
+				ctf_fso.WriteLine('REG IMPORT "%New_FullPath%\\Configuration\\%reg%" 1>nul');
+				ctf_fso.WriteLine('reg add "HKLM\\SOFTWARE%wowNode%\\Borland\\Database Engine" /v CONFIGFILE01 /t REG_SZ /d "%New_FullPath%\\Configuration\\%cfg%" /f 1>nul');
+				ctf_fso.WriteLine('call "%InstallScriptsPath%\\AutoChangeAlias.exe" "%New_FullPath%\\Configuration\\CHANGE ALIAS.exe" "%New_FullPath%\\"');
+				ctf_fso.WriteLine('call "%InstallScriptsPath%\\AutoSTBConnSetup.exe" "%New_FullPath%\\Software\\STBConnSetup.exe"');	
+				ctf_fso.WriteLine('cscript //nologo "%InstallScriptsPath%\\MLink.vbs" "%New_FullPath%"');		
+				}
+				else
+					{// integration installation
+						if(iObjs.value=="Integration")
+						{
+							ctf_fso.WriteLine('REG IMPORT "%Old_FullPath%\\Configuration\\%reg%" 1>nul');
+							ctf_fso.WriteLine('reg add "HKLM\\SOFTWARE%wowNode%\\Borland\\Database Engine" /v CONFIGFILE01 /t REG_SZ /d "%Old_FullPath%\\Configuration\\%cfg%" /f 1>nul');
+							ctf_fso.WriteLine('call "%InstallScriptsPath%\\AutoChangeAlias.exe" "%Old_FullPath%\\Software\\CHANGE ALIAS.exe" "%Old_FullPath%\\"');
+							ctf_fso.WriteLine('call "%InstallScriptsPath%\\AutoSTBConnSetup.exe" "%Old_FullPath%\\Software\\STBConnSetup.exe"');	
+							}
+						}
+			}
+
+
+if(sObjs.length>0)
+{
+	
+	for(var i=0;i<sObjs.length;i++)
+	{
+		    if(sObjs[i].value=="registerinstalltoolv4"){
+				ctf_fso.WriteLine('echo Step:install toolv4 and register it');
+				ctf_fso.WriteLine('IF EXIST "'+tObjs[i].value+'" call "%InstallScriptsPath%\\AutoInstalV4.exe" "'+tObjs[i].value+'"');
+				ctf_fso.WriteLine('cscript //nologo "%InstallScriptsPath%\\MLink.vbs" "%New_FullPath%"');
+				ctf_fso.WriteLine('robocopy.exe "%ConfigTemplatesPath%" "%New_FullPath%\\Software\\UTILITIES\\InstalledProductVersion" "0.0.0.0_InstalledProducts.INI" "0.0.0.0_InstalledProducts.bat" 1>nul');
+				ctf_fso.WriteLine('call "%New_FullPath%\\Software\\UTILITIES\\InstalledProductVersion\\STBInstalledProductVersion.exe" /productsfile="%New_FullPath%\\Software\\UTILITIES\\InstalledProductVersion\\0.0.0.0_InstalledProducts.INI"');
+				ctf_fso.WriteLine('IF EXIST "%License%" call "%InstallScriptsPath%\\AutoRegisterTool.exe" "%New_FullPath%" "%License%"');
+				ctf_fso.WriteLine('%sqlbat% mdalias "%testset%" "%New_Client%_SYSTEM"');
+			}
+			if(sObjs[i].value=="installtoolv4"){
+				ctf_fso.WriteLine('echo Step:install toolv4');
+				ctf_fso.WriteLine('IF EXIST "'+tObjs[i].value+'" call "%InstallScriptsPath%\\AutoInstalV4.exe" "'+tObjs[i].value+'"');
+			}
+			if(sObjs[i].value=="installproduct"){
+				ctf_fso.WriteLine('echo Step:install product');
+				ctf_fso.WriteLine('IF EXIST "'+tObjs[i].value+'" (');
+				ctf_fso.WriteLine('	call "%InstallScriptsPath%\\AutoProduct.exe" "'+tObjs[i].value+'"');
+				if(iObjs.value=="Integration"){ctf_fso.WriteLine('%sqlbat% setadmin "%testset%" "%Old_Client%_SYSTEM"');}
+				else{ctf_fso.WriteLine('%sqlbat% setadmin "%testset%" "%New_Client%_SYSTEM"');}
+				ctf_fso.WriteLine('    )');
+			}
+			if(sObjs[i].value=="hardcode"){
+				ctf_fso.WriteLine('echo Step: execute cmd command');
+				ctf_fso.WriteLine(tObjs[i].value);
+			}
+		
+	}
+}
+if(iObjs.value=="Integration"){ctf_fso.WriteLine('');}
+else{ctf_fso.WriteLine('call "%InstallScriptsPath%\\createFile.bat"');}
+ctf_fso.WriteLine('GOTO END');
+
+ctf_fso.WriteLine(':CUTSTR_LOOP');
+ctf_fso.WriteLine('IF NOT "%str%"=="" (');
+ctf_fso.WriteLine('    IF NOT "%str:~-1%"=="\\" (');
+ctf_fso.WriteLine('		SET "str=%str:~,-1%"');
+ctf_fso.WriteLine('		GOTO CUTSTR_LOOP');
+ctf_fso.WriteLine('	) ');
+ctf_fso.WriteLine(') ');
+ctf_fso.WriteLine('GOTO :EOF');
+/*
+ctf_fso.WriteLine(':CreateFile');
+ctf_fso.WriteLine('echo ^@echo off>"%New_FullPath%\\Configuration\\unicfg.bat"');
+ctf_fso.WriteLine('echo net use \\\\172.20.20.55\\qa /u:test1 password>>"%New_FullPath%\\Configuration\\unicfg.bat"');
+ctf_fso.WriteLine('echo set _cfg_path=%%~dp0>>"%New_FullPath%\\Configuration\\unicfg.bat"');
+ctf_fso.WriteLine('echo set _pdt_path=%%_cfg_path:Configuration\\=%%>>"%New_FullPath%\\Configuration\\unicfg.bat"');
+ctf_fso.WriteLine('echo set _sft_path=%%_cfg_path:Configuration=Software%%>>"%New_FullPath%\\Configuration\\unicfg.bat"');
+ctf_fso.WriteLine('echo set _tls_path=\\\\172.20.20.55\\qa\\CN\\scripts\\common\\script for install\\>>"%New_FullPath%\\Configuration\\unicfg.bat"');
+ctf_fso.WriteLine('echo REG IMPORT "%%_cfg_path%%%reg%" 1^>nul>>"%New_FullPath%\\Configuration\\unicfg.bat"');
+ctf_fso.WriteLine('echo reg add "HKLM\\SOFTWARE\\Borland\\Database Engine" /v CONFIGFILE01 /t REG_SZ /d "%%_cfg_path%%%cfg%" /f 1^>nul>>"%New_FullPath%\\Configuration\\unicfg.bat"');
+ctf_fso.WriteLine('echo CALL "%%_tls_path%%AutoChangeAlias.exe" "%%_sft_path%%CHANGE ALIAS.exe" "%%_pdt_path%%">>"%New_FullPath%\\Configuration\\unicfg.bat"');
+ctf_fso.WriteLine('echo call "%%_tls_path%%AutoSTBConnSetup.exe" "%%_sft_path%%STBConnSetup.exe">>"%New_FullPath%\\Configuration\\unicfg.bat"');
+ctf_fso.WriteLine('echo call "%%_tls_path%%AutoSuperC.exe" "%%_sft_path%%" ADMIN>>"%New_FullPath%\\Configuration\\unicfg.bat"');
+ctf_fso.WriteLine('echo exit /B ^0>>"%New_FullPath%\\Configuration\\unicfg.bat"');
+ctf_fso.WriteLine('PUSHD "%New_FullPath%\\Configuration" & START . & POPD');
+ctf_fso.WriteLine('GOTO END');
+*/
+ctf_fso.WriteLine(':ERROR');
+ctf_fso.WriteLine('ECHO You might be encounter one of these errors.');
+ctf_fso.WriteLine('ECHO   When updating or Integrating product, Old Client Folder "%Old_FullPath%" does not exist!');
+ctf_fso.WriteLine('ECHO   When installing new product, New Client Folder "%New_FullPath%" exists!');
+ctf_fso.WriteLine('GOTO END');
+ctf_fso.WriteLine(':ERROR5');
+ctf_fso.WriteLine('ECHO You might be encounter one error.');
+ctf_fso.WriteLine('ECHO NOT EXIST %Old_FullPath%\\Configuration\\%reg% or %cfg%');
+ctf_fso.WriteLine('GOTO END');
+ctf_fso.WriteLine(':ERROR6');
+ctf_fso.WriteLine('ECHO You might be encounter one error.');
+ctf_fso.WriteLine('ECHO EXIST database:%New_Client%_DATA or %New_Client%_SYSTEM');
+ctf_fso.WriteLine('GOTO END');
+ctf_fso.WriteLine(':Help');
+ctf_fso.WriteLine('ECHO ___________________________________________________________________');
+ctf_fso.WriteLine('ECHO 			HELP DOCUMENT					   ');
+ctf_fso.WriteLine('ECHO :: Test-Set List :');
+ctf_fso.WriteLine('ECHO		CHINA_SQL');
+ctf_fso.WriteLine('ECHO		HKMA_SQL');
+ctf_fso.WriteLine('ECHO :: Argument:');
+ctf_fso.WriteLine('ECHO		Toolset :: Full path of toolset. If Don\'t install it, set it NULL.');
+ctf_fso.WriteLine('ECHO		License :: Full path of License for activating toolset.');
+ctf_fso.WriteLine('ECHO		Product :: Full path of Product. If Don\'t install it, set it NULL.');
+ctf_fso.WriteLine('ECHO		Old_FullPath :: Assign fullpath of old client to it.');
+ctf_fso.WriteLine('ECHO		New_FullPath :: Assign fullpath of new client to it.');
+ctf_fso.WriteLine('ECHO				Make sure old client exists.');
+ctf_fso.WriteLine('ECHO				Make sure new client doesn\'t exists.');
+ctf_fso.WriteLine('ECHO		Install_Mode :: N/U/I,');
+ctf_fso.WriteLine('ECHO				N means new installation, U means upgrade/integration');
+ctf_fso.WriteLine('ECHO				to new client,I means integration in old client.');
+ctf_fso.WriteLine('ECHO ___________________________________________________________________');
+ctf_fso.WriteLine('GOTO END');
+ctf_fso.WriteLine(':END');
+ctf_fso.Close();
+//*/
+}
+
+function valid_fullpath(){
+    //if(path.substr(-1)!='/') path+='/';
+    // 盘符为a-z ,路径不能包含特殊字符 \/:*?"<>|
+    ///^[a-z]\:\/([^\/:*?"<>|]+\/)+$/i
+    //'alert(event.srcElement.name)'
+	// if(/^[a-zA-Z]:[\\/]((?! )(?![^\\/]*\s+[\\/])[\w \.\-_]+[\\/])*(?! )(?![^.]*\s+\.)[\w \.\-_]+\.[a-zA-Z]{3}$/i.test(event.srcElement.value))
+    var d1=event.srcElement.nextSibling;
+   if(/[^ 	]/i.test(event.srcElement.value)){
+      d1.innerHTML='<font color="#008000">√</font>';
+    }
+    else{
+    d1.innerHTML='<font color="#ff0000">invalidate</font>';
+    
+    }
+}
+function valid_folder(){
+	var d1=event.srcElement.nextSibling;
+   if(/^[a-zA-Z]:[\\/]((?! )(?![^\\/]*\s+[\\/])[\w \.\-_]+[\\/])*(?! )(?![^.]*\s+\.)[\w \-_]+[\\/]?$/i.test(event.srcElement.value)){
+      d1.innerHTML='<font color="#008000">√</font>';
+    }
+    else{
+    d1.innerHTML='<font color="#ff0000">invalidate</font>';
+    
+    }
+	}
+	
+	function getClientFolder(fullpath)
+{
+	var tempstr;
+	if(fullpath.substr(fullpath.length-1,1)=="\\")
+	{
+		tempstr=fullpath.substr(0,fullpath.length-1);
+	}else
+	{
+		tempstr=fullpath;	
+	}
+	if (tempstr!=""){
+  			for(var i=tempstr.length;i>0;i--)
+  			{
+  				if(tempstr.substr(i-1,1)=="\\"){return(tempstr.substring(i,tempstr.length))}
+  				//	if(tempstr[i]=="\\"){return(tempstr.substring(i,tempstr.length-1))}
+  			}
+  	}
+		
+}
+</script>
+</html>
